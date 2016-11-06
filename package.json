@@ -9,7 +9,9 @@
   },
   "main": "index.js",
   "dependencies": {
-    "postcss": "^5.2.5"
+    "css-selector-parser": "^1.2.0",
+    "postcss": "^5.2.5",
+    "traverse": "^0.6.6"
   },
   "devDependencies": {},
   "scripts": {
