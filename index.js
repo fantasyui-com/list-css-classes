@@ -1,20 +1,23 @@
 var postcss = require('postcss');
+var CssSelectorParser = require('css-selector-parser').CssSelectorParser;
+var traverse = require('traverse');
+var cssSelectorParser = new CssSelectorParser();
+cssSelectorParser.registerSelectorPseudos('has');
+cssSelectorParser.registerNestingOperators('>', '+', '~');
+cssSelectorParser.registerAttrEqualityMods('^', '$', '*', '~');
+cssSelectorParser.enableSubstitutes();
 module.exports = function(o) {
   let scanner = postcss.plugin('scanner', function(opts) {
     opts = opts || {};
     return function(root, result) {
-      result.selectors = {};
+      let classNames = new Set();
       root.walkRules(rule => {
-        let ruleSelectors = rule.selector.replace(/\./g, " .").split(/[, >]/).map(i => i.trim()).filter(i => i);
-        ruleSelectors.forEach(selector => {
-          let selectorParts = selector.split(/:/);
-          if (selectorParts[0]) {
-            if (selectorParts[0].match(/^\./)) {
-              result.selectors[selectorParts[0]] = true;
-            }
-          }
+        let parsedSelector = cssSelectorParser.parse( rule.selector );
+        traverse(parsedSelector).forEach(function (data) {
+          if (this.key === 'classNames') data.map(i=>classNames.add(i));
         });
       });
+      result.classNames = Array.from(classNames);
     };
   });
   return postcss([scanner({})]).process(o.css);
