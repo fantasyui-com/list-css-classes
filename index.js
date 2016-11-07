@@ -11,11 +11,18 @@ module.exports = function(o) {
     opts = opts || {};
     return function(root, result) {
       let classNames = new Set();
+
       root.walkRules(rule => {
-        let parsedSelector = cssSelectorParser.parse( rule.selector );
-        traverse(parsedSelector).forEach(function (data) {
-          if (this.key === 'classNames') data.map(i=>classNames.add(i));
-        });
+        try{
+          let parsedSelector = cssSelectorParser.parse( rule.selector );
+
+          traverse(parsedSelector).forEach(function (data) {
+            if (this.key === 'classNames') data.map(i=>classNames.add(i));
+          });
+        }catch(e){
+          // ignore malformed selectors
+        }
+
       });
       result.classNames = Array.from(classNames);
     };
