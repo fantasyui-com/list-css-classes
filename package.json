@@ -2,7 +2,7 @@
   "name": "list-css-classes",
   "description": "List CSS classes in a CSS formatted string.",
   "version": "1.2.0",
-  "author": "fantasyui-com",
+  "author": "fantasyui.com <fantasyui.com@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/fantasyui-com/list-css-classes"
@@ -15,7 +15,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node test.js && echo 'PASS'"
+    "test": "node test.js && echo 'PASS'",
+    "save": "git add .; git commit -m 'New Release'; git push; npm version patch; npm publish; git push;"
   },
   "keywords": [],
   "license": "MIT"
