@@ -1,7 +1,7 @@
 {
   "name": "list-css-classes",
   "description": "List CSS classes in a CSS formatted string.",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "author": "fantasyui.com <fantasyui.com@gmail.com>",
   "repository": {
     "type": "git",
